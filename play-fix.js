@@ -1,14 +1,56 @@
 (()=>{
 'use strict';
 const get=id=>document.getElementById(id);
-function openCard(id){
-  if(!id)return;
-  if(typeof openViewer==='function'){try{openViewer(Number(id));return}catch(e){console.warn('openViewer failed',e)}}
+function fallbackOpen(id){
   const req=indexedDB.open('private_reels_v3',1);
-  req.onerror=()=>typeof toast==='function'&&toast('Could not open reel storage.');
-  req.onsuccess=()=>{const db=req.result;if(!db.objectStoreNames.contains('reels')){db.close();return typeof toast==='function'&&toast('Reel storage is unavailable.')}const tx=db.transaction('reels','readonly'),q=tx.objectStore('reels').get(Number(id));q.onsuccess=()=>{const x=q.result;db.close();if(!x?.video)return typeof toast==='function'&&toast('Video is not available on this device. Sync again.');const viewer=get('viewer'),video=get('viewerVideo');if(!viewer||!video)return;viewer.classList.add('show');get('viewerTitle').textContent=x.name||'Reel';video.src=URL.createObjectURL(x.video);video.load();if(x.instaId){get('viewerIg').style.display='block';get('viewerIg').onclick=()=>window.open('https://www.instagram.com/'+encodeURIComponent(String(x.instaId).replace(/^@/,''))+'/','_blank','noopener')}else get('viewerIg').style.display='none';video.play().catch(()=>{})}}
+  req.onerror=()=>window.toast?.('Could not open reel storage.');
+  req.onsuccess=()=>{
+    const db=req.result;
+    if(!db.objectStoreNames.contains('reels')){db.close();return window.toast?.('Reel storage is unavailable.')}
+    const q=db.transaction('reels','readonly').objectStore('reels').get(Number(id));
+    q.onsuccess=()=>{
+      const x=q.result; db.close();
+      if(!x?.video)return window.toast?.('Video is not available on this device.');
+      const viewer=get('viewer'),video=get('viewerVideo');
+      if(!viewer||!video)return window.toast?.('Video viewer is unavailable.');
+      viewer.classList.add('show');
+      get('viewerTitle').textContent=x.name||'Reel';
+      const url=URL.createObjectURL(x.video); video.src=url; video.load();
+      if(x.instaId){const b=get('viewerIg');b.style.display='block';b.onclick=()=>window.open('https://www.instagram.com/'+encodeURIComponent(String(x.instaId).replace(/^@/,''))+'/','_blank','noopener')}else get('viewerIg').style.display='none';
+    };
+  };
 }
-function bind(){const lib=get('library');if(!lib||lib.dataset.cardPlayFix==='v4')return;lib.dataset.cardPlayFix='v4';const handler=e=>{const card=e.target.closest('.card');if(!card||!lib.contains(card))return;if(e.target.closest('.del'))return;const play=card.querySelector('.open');if(play){e.preventDefault();e.stopPropagation();openCard(play.dataset.id)}};lib.addEventListener('click',handler,true);lib.addEventListener('pointerup',e=>{if(e.pointerType==='mouse')return;handler(e)},true)}
-function start(){bind();new MutationObserver(bind).observe(document.body,{childList:true,subtree:true})}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(start,100));else setTimeout(start,100)
+function play(id){
+  if(!id)return;
+  if(typeof window.openViewer==='function'){
+    try{window.openViewer(Number(id));return}catch(e){console.warn('openViewer failed',e)}
+  }
+  fallbackOpen(id);
+}
+function bindCards(){
+  const lib=get('library');
+  if(!lib)return;
+  lib.querySelectorAll('.card').forEach(card=>{
+    if(card.dataset.playBound==='v5')return;
+    const btn=card.querySelector('.open');
+    if(!btn)return;
+    const id=btn.dataset.id;
+    card.dataset.playBound='v5';
+    card.style.cursor='pointer';
+    card.addEventListener('click',e=>{
+      if(e.target.closest('.del'))return;
+      e.preventDefault();e.stopPropagation();play(id);
+    });
+    card.addEventListener('touchend',e=>{
+      if(e.target.closest('.del'))return;
+      e.preventDefault();play(id);
+    },{passive:false});
+  });
+}
+function start(){
+  bindCards();
+  new MutationObserver(()=>bindCards()).observe(document.body,{childList:true,subtree:true});
+  setInterval(bindCards,1000);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(start,500));else setTimeout(start,500);
 })();
