@@ -3,18 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#090909">
+<meta name="theme-color" content="#0b0b0c">
 <title>My Reels</title>
-<link rel="stylesheet" href="./app.css?v=simple2">
+<link rel="stylesheet" href="./app.css?v=1">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-<main id="publicLibrary" class="main simple-app">
-<header class="top"><div><b>My Reels</b><div class="sub">Hijabi Girls Who Slay</div></div><div class="actions"><span id="publicStatus" class="sub">Loading…</span><button id="refresh" class="btn">Refresh</button><a class="btn" href="./creator.html">Creator</a></div></header>
-<section class="hero"><div><div class="eyebrow">MY REELS</div><h1>Hijabi Girls <span>Who Slay In Hijab</span></h1><p>Dance • Photoshoots • Style • Beautiful moments.</p></div></section>
-<div class="stats"><div class="stat"><small>Total Reels</small><b id="statTotal">0</b></div></div>
-<div id="library" class="grid"></div>
+<header class="topbar">
+  <a class="brand" href="./"><span class="brandMark">M</span><span>My Reels</span></a>
+  <div class="topActions">
+    <button id="refresh" class="button ghost">Refresh</button>
+    <button id="upload" class="button primary">Upload</button>
+  </div>
+</header>
+<main>
+  <section class="intro">
+    <div>
+      <p class="kicker">MY REELS</p>
+      <h1>Hijabi Girls Who Slay In Hijab</h1>
+      <p class="introText">A simple private collection. Videos stay in Google Drive and stream when you watch them.</p>
+    </div>
+    <div class="count"><strong id="count">0</strong><span>videos</span></div>
+  </section>
+  <div id="status" class="status">Loading your reels...</div>
+  <section id="grid" class="grid" aria-live="polite"></section>
 </main>
-<div id="publicViewer" class="viewer" aria-hidden="true"><div class="vtop"><button id="publicBack" class="btn">← Back</button><b id="publicTitle"></b><button id="publicIg" class="btn" style="display:none">Instagram</button></div><div id="player"></div></div>
-<script src="./public-api.js?v=simple2"></script>
+<div id="viewer" class="viewer" aria-hidden="true">
+  <div class="viewerTop"><button id="close" class="button ghost">Close</button><strong id="viewerTitle">Reel</strong><span></span></div>
+  <div class="playerWrap"><iframe id="player" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Video player"></iframe></div>
+</div>
+<div id="uploadModal" class="modal" aria-hidden="true">
+  <div class="modalCard">
+    <div class="modalHead"><div><p class="kicker">CREATOR</p><h2>Upload a reel</h2></div><button id="cancelUpload" class="iconButton" aria-label="Close">×</button></div>
+    <p class="modalText">Choose a video. It will be uploaded directly to your Google Drive <b>My Reels</b> folder.</p>
+    <input id="videoFile" class="fileInput" type="file" accept="video/*">
+    <input id="title" class="input" placeholder="Title (optional)">
+    <input id="instagram" class="input" placeholder="Instagram ID (optional)">
+    <div id="uploadProgress" class="uploadProgress"><div id="uploadBar"></div></div>
+    <div id="uploadMessage" class="uploadMessage"></div>
+    <button id="startUpload" class="button primary wide">Choose a video first</button>
+  </div>
+</div>
+<script src="./app.js?v=1"></script>
 </body>
 </html>
