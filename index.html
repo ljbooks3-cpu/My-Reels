@@ -5,15 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0b0c">
 <title>My Reels</title>
-<link rel="stylesheet" href="./app.css?v=1">
+<link rel="stylesheet" href="./app.css?v=4">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 <header class="topbar">
   <a class="brand" href="./"><span class="brandMark">M</span><span>My Reels</span></a>
   <div class="topActions">
-    <button id="refresh" class="button ghost">Refresh</button>
-    <button id="upload" class="button primary">Upload</button>
+    <span id="account" class="account"></span>
+    <button id="login" class="button primary">Sign in</button>
+    <button id="refresh" class="button ghost" disabled>Refresh</button>
+    <button id="upload" class="button primary" disabled>Upload</button>
   </div>
 </header>
 <main>
@@ -21,11 +23,11 @@
     <div>
       <p class="kicker">MY REELS</p>
       <h1>Hijabi Girls Who Slay In Hijab</h1>
-      <p class="introText">A simple private collection. Videos stay in Google Drive and stream when you watch them.</p>
+      <p class="introText">Your videos stay in Google Drive. Sign in to view your private library. Nothing is downloaded until you open a video.</p>
     </div>
     <div class="count"><strong id="count">0</strong><span>videos</span></div>
   </section>
-  <div id="status" class="status">Loading your reels...</div>
+  <div id="status" class="status">Sign in with your Google account to load your reels.</div>
   <section id="grid" class="grid" aria-live="polite"></section>
 </main>
 <div id="viewer" class="viewer" aria-hidden="true">
@@ -41,9 +43,9 @@
     <input id="instagram" class="input" placeholder="Instagram ID (optional)">
     <div id="uploadProgress" class="uploadProgress"><div id="uploadBar"></div></div>
     <div id="uploadMessage" class="uploadMessage"></div>
-    <button id="startUpload" class="button primary wide">Choose a video first</button>
+    <button id="startUpload" class="button primary wide" disabled>Choose a video first</button>
   </div>
 </div>
-<script src="./app.js?v=1"></script>
+<script src="./app.js?v=4"></script>
 </body>
 </html>
