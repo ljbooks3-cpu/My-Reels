@@ -12,22 +12,21 @@ function doGet(e) {
   try {
     if (action !== 'list') return out_({ ok:false, error:'Unknown action' }, callback);
     const folder = folder_();
-    try { folder.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.VIEW); } catch (_) {}
+
+    // One folder-level read-only permission is enough for the child videos.
+    // This avoids doing a permission write for every video on every refresh.
+    try {
+      if (folder.getSharingAccess() !== DriveApp.Access.ANYONE) {
+        folder.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.VIEW);
+      }
+    } catch (_) {}
 
     const it = folder.getFiles();
     const reels = [];
     while (it.hasNext()) {
       const f = it.next();
       if (!String(f.getMimeType()).startsWith('video/')) continue;
-
       const id = f.getId();
-      let shareError = '';
-      try {
-        f.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.VIEW);
-      } catch (err) {
-        shareError = String(err?.message || err);
-      }
-
       const meta = parse_(f.getDescription());
       reels.push({
         id: id,
@@ -38,8 +37,7 @@ function doGet(e) {
         mimeType: f.getMimeType(),
         thumbnail: 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(id) + '&sz=w900',
         video: 'https://drive.google.com/uc?export=download&id=' + encodeURIComponent(id),
-        drive: 'https://drive.google.com/file/d/' + encodeURIComponent(id) + '/view',
-        shareError: shareError
+        drive: 'https://drive.google.com/file/d/' + encodeURIComponent(id) + '/view'
       });
     }
 
