@@ -2,22 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0710">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090909">
 <title>My Reels</title>
-<link rel="stylesheet" href="./app.css?v=simple1">
+<link rel="stylesheet" href="./app.css?v=simple2">
 </head>
 <body>
 <main id="publicLibrary" class="main simple-app">
-<header class="top">
-  <div><b>My Reels</b><div class="sub">Hijabi Girls Who Slay</div></div>
-  <div class="actions"><span id="publicStatus" class="sub">Loading…</span><button id="refresh" class="btn">Refresh</button><a class="btn" href="./creator.html">Creator</a></div>
-</header>
+<header class="top"><div><b>My Reels</b><div class="sub">Hijabi Girls Who Slay</div></div><div class="actions"><span id="publicStatus" class="sub">Loading…</span><button id="refresh" class="btn">Refresh</button><a class="btn" href="./creator.html">Creator</a></div></header>
 <section class="hero"><div><div class="eyebrow">MY REELS</div><h1>Hijabi Girls <span>Who Slay In Hijab</span></h1><p>Dance • Photoshoots • Style • Beautiful moments.</p></div></section>
 <div class="stats"><div class="stat"><small>Total Reels</small><b id="statTotal">0</b></div></div>
 <div id="library" class="grid"></div>
 </main>
-<div id="publicViewer" class="viewer"><div class="vtop"><button id="publicBack" class="btn">Back</button><b id="publicTitle"></b><button id="publicIg" class="btn" style="display:none">Instagram</button></div><video id="publicVideo" playsinline controls preload="metadata"></video></div>
-<script src="./public-api.js?v=simple1"></script>
+<div id="publicViewer" class="viewer" aria-hidden="true"><div class="vtop"><button id="publicBack" class="btn">← Back</button><b id="publicTitle"></b><button id="publicIg" class="btn" style="display:none">Instagram</button></div><div id="player"></div></div>
+<script src="./public-api.js?v=simple2"></script>
 </body>
 </html>
