@@ -15,6 +15,10 @@ jobs:
       - name: Check JavaScript syntax
         run: node --check app.js
       - name: Check required files
-        run: test -f index.html && test -f app.css && test -f app.js && test -f apps-script/Code.gs
+        run: test -f index.html && test -f app.css && test -f app.js
       - name: Confirm single-page app
         run: '! test -e creator.html'
+      - name: Confirm authentication controls exist
+        run: grep -q 'id="login"' index.html && grep -q 'id="logout"' index.html && grep -q 'google.accounts.oauth2' app.js
+      - name: Confirm old public backend is gone
+        run: '! grep -q "script.google.com/macros" app.js'
