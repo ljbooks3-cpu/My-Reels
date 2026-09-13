@@ -1,0 +1,1 @@
+window.HGWS_CONFIG={creatorEmail:"ljbooks3@gmail.com",clientId:"94430402616-5bhfnaric11em723f6pccmct6raqga2r.apps.googleusercontent.com",catalogUrl:"https://script.google.com/macros/s/AKfycbyIcTsXxu896spK_ZSZnyciyw-XMw6_JLPx9oAjJugVdnUnonYQ9N5OrJvcT1MNY5ZI9/exec",folderId:"1HsL5jpJRZkTXORAom82VNuR2scnnWzJL",folderName:"My Reels"};
